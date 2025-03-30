@@ -2,7 +2,7 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
 
-  use 'wbthomason/packer.nvim'
+  use {'wbthomason/packer.nvim', opt = true}
 
   use {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.5',
@@ -14,16 +14,30 @@ return require('packer').startup(function(use)
   use { "nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" } }
   use { "nvim-treesitter/playground" }
 
+  use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
+
   use { "theprimeagen/harpoon" }
 
   use { "mbbill/undotree" }
 
   use { "tpope/vim-fugitive" }
 
+  use { "andweeb/presence.nvim" }
+
   use { "folke/zen-mode.nvim" }
   use { "folke/twilight.nvim" }
 
-  use { 'numtoStr/Comment.nvim' }
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup({
+        toggler = {
+          line = 'gcc',
+          block = 'gbc',
+        }
+      })
+    end
+  }
 
   use {
       'nvim-lualine/lualine.nvim',
@@ -32,10 +46,23 @@ return require('packer').startup(function(use)
 
   use { "christoomey/vim-tmux-navigator" }
 
+  use({
+      "iamcco/markdown-preview.nvim",
+      run = function()
+        vim.fn["mkdp#util#install"]()
+      end,
+      setup = function()
+        local g = vim.g
+        g.mkdp_preview_options = {
+          disable_filename = 1,
+        }
+      end,
+  })
+
   use {
       "nvim-neo-tree/neo-tree.nvim",
       branch = "v3.x",
-      requires = { 
+      requires = {
           "nvim-lua/plenary.nvim",
           "nvim-tree/nvim-web-devicons",
           "MunifTanjim/nui.nvim",
