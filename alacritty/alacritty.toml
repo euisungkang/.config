@@ -8,17 +8,20 @@ TERM = "xterm-256color"
 # font
 [font]
 size = 16
-normal = { family = "Courier New", style = "Regular" }
+# normal = { family = "Courier New", style = "Regular" }
+# normal = { family = "0xProto Nerd Font", style = "Regular" }
+# normal = { family = "JetBrainsMono Nerd Font", style = "Thin" }
+normal = { family = "SauceCodePro Nerd Font" }
 
 [window]
 opacity = 0.7
 blur = true
 decorations = "Transparent"
-padding = {x = 10, y = 30}
-dynamic_padding = true
-dimensions = {columns = 167, lines = 52}
-position = {x = 70, y = 105}
-# startup_mode= "SimpleFullscreen"
+padding = {x = 10, y = 20}
+# dynamic_padding = true
+# dimensions = {columns = 167, lines = 52}
+position = {x = 0, y = 0}
+startup_mode= "Windowed"
 
 [cursor]
 style = {shape = "Beam", blinking = "On"}
