@@ -1,1 +1,1 @@
-require("easton")
+require("config.lazy")
