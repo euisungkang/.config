@@ -1,0 +1,226 @@
+Caelestia Shell Configuration Options (shell.json)
+====================================================
+
+appearance — Visual theming
+----------------------------
+  anim.durations.scale          Animation speed multiplier
+  deformScale                   Deformation effect scale
+  font.family.material          Material icon font
+  font.family.mono              Monospace font
+  font.family.sans              Sans-serif font
+  font.size.scale               Font size multiplier
+  padding.scale                 Padding multiplier
+  rounding.scale                Corner rounding multiplier
+  spacing.scale                 Spacing multiplier
+  transparency.enabled          Enable transparency effects
+  transparency.base             Base transparency level
+  transparency.layers           Number of transparency layers
+
+background — Desktop background features
+------------------------------------------
+  enabled                               Enable background module
+  wallpaperEnabled                      Show wallpaper
+  desktopClock.enabled                  Desktop clock overlay
+  desktopClock.scale                    Clock size
+  desktopClock.position                 Clock position on screen
+  desktopClock.invertColors             Invert clock colors
+  desktopClock.background.enabled       Clock background panel
+  desktopClock.background.blur          Blur behind clock
+  desktopClock.background.opacity       Clock background opacity
+  desktopClock.shadow.enabled           Clock drop shadow
+  desktopClock.shadow.blur              Shadow blur radius
+  desktopClock.shadow.opacity           Shadow opacity
+  visualiser.enabled                    Audio visualizer bars
+  visualiser.autoHide                   Hide when windows are tiled
+  visualiser.blur                       Blur wallpaper behind bars
+  visualiser.rounding                   Bar corner rounding
+  visualiser.spacing                    Space between bars
+
+bar — Status bar
+-----------------
+  persistent                            Always show bar (vs auto-hide)
+  showOnHover                           Show bar on hover
+  dragThreshold                         Drag sensitivity
+  entries                               Bar entry layout/order
+  excludedScreens                       Screens to hide bar on
+  clock.background                      Clock background panel
+  clock.showDate                        Show date in clock
+  clock.showIcon                        Show clock icon
+  activeWindow.compact                  Compact active window title
+  activeWindow.inverted                 Invert active window colors
+  activeWindow.showOnHover              Show active window on hover
+  popouts.activeWindow                  Active window popout
+  popouts.statusIcons                   Status icons popout
+  popouts.tray                          System tray popout
+  scrollActions.brightness              Scroll to adjust brightness
+  scrollActions.volume                  Scroll to adjust volume
+  scrollActions.workspaces              Scroll to switch workspaces
+  status.showAudio                      Show audio indicator
+  status.showBattery                    Show battery indicator
+  status.showBluetooth                  Show Bluetooth indicator
+  status.showKbLayout                   Show keyboard layout
+  status.showLockStatus                 Show lock status (caps/num)
+  status.showMicrophone                 Show mic indicator
+  status.showNetwork                    Show network indicator
+  status.showWifi                       Show WiFi indicator
+  tray.background                       Tray background
+  tray.compact                          Compact tray mode
+  tray.iconSubs                         Icon name substitutions
+  tray.recolour                         Recolor tray icons to theme
+  workspaces.shown                      Number of workspace indicators
+  workspaces.perMonitorWorkspaces       Per-monitor workspace numbering
+  workspaces.showWindows                Show window icons in workspaces
+  workspaces.showWindowsOnSpecialWorkspaces  Window icons on special workspaces
+  workspaces.maxWindowIcons             Max window icons per workspace
+  workspaces.windowIcons                Enable window icon display
+  workspaces.specialWorkspaceIcons      Icons for special workspaces
+  workspaces.activeIndicator            Active workspace indicator style
+  workspaces.activeLabel                Active workspace label
+  workspaces.activeTrail                Active workspace trail effect
+  workspaces.label                      Workspace label format
+  workspaces.occupiedBg                 Occupied workspace background
+  workspaces.occupiedLabel              Occupied workspace label
+
+border — Window borders
+------------------------
+  thickness                     Border width
+  rounding                      Border corner rounding
+  smoothing                     Border smoothing
+
+dashboard — Side dashboard panel
+---------------------------------
+  enabled                       Enable dashboard
+  showOnHover                   Show on hover
+  dragThreshold                 Drag sensitivity
+  showDashboard                 Show main dashboard section
+  showMedia                     Show media player section
+  showPerformance               Show performance monitor section
+  showWeather                   Show weather widget
+  mediaUpdateInterval           Media info refresh rate
+  resourceUpdateInterval        System resource refresh rate
+  performance.showCpu           CPU usage graph
+  performance.showGpu           GPU usage graph
+  performance.showMemory        Memory usage graph
+  performance.showStorage       Storage usage graph
+  performance.showNetwork       Network usage graph
+  performance.showBattery       Battery graph
+
+general — System-wide settings
+-------------------------------
+  logo                          Custom logo image
+  showOverFullscreen            Show shell elements over fullscreen apps
+  mediaGifSpeedAdjustment       Media GIF playback speed
+  sessionGifSpeed               Session screen GIF speed
+  apps.explorer                 Default file explorer command
+  apps.playback                 Default media playback app
+  apps.terminal                 Default terminal app
+  battery.criticalLevel         Critical battery threshold
+  battery.warnLevels            Battery warning levels
+  idle.inhibitWhenAudio         Prevent idle when audio is playing
+  idle.lockBeforeSleep          Lock screen before sleep
+  idle.timeouts                 Idle timeout durations
+
+launcher — App launcher
+-------------------------
+  enabled                       Enable launcher
+  showOnHover                   Show on hover
+  dragThreshold                 Drag sensitivity
+  maxShown                      Max results shown
+  maxWallpapers                 Max wallpapers in picker
+  vimKeybinds                   Vim-style navigation
+  actionPrefix                  Prefix for actions
+  specialPrefix                 Prefix for special commands
+  enableDangerousActions        Allow destructive actions
+  favouriteApps                 Pinned favorite apps (array)
+  hiddenApps                    Hidden apps (array)
+  useFuzzy.apps                 Fuzzy search for apps
+  useFuzzy.actions              Fuzzy search for actions
+  useFuzzy.schemes              Fuzzy search for color schemes
+  useFuzzy.variants             Fuzzy search for variants
+  useFuzzy.wallpapers           Fuzzy search for wallpapers
+
+lock — Lock screen
+-------------------
+  enableFprint                  Fingerprint unlock
+  maxFprintTries                Max fingerprint attempts
+  hideNotifs                    Hide notifications on lock
+  recolourLogo                  Recolor logo to scheme
+
+notifs — Notifications
+-----------------------
+  expire                        Auto-dismiss notifications
+  defaultExpireTimeout          Default dismiss timeout
+  actionOnClick                 Action when notification clicked
+  clearThreshold                Threshold to show "clear all"
+  expandThreshold               Threshold to collapse group
+  fullscreen                    Show notifs over fullscreen
+  groupPreviewNum               Preview count in groups
+  openExpanded                  Open notifications expanded
+
+osd — On-screen display
+-------------------------
+  enableBrightness              Show brightness OSD
+  hideDelay                     OSD auto-hide delay
+
+services — Backend services
+----------------------------
+  audioIncrement                Volume step size
+  brightnessIncrement           Brightness step size
+  maxVolume                     Maximum volume cap
+  defaultPlayer                 Default media player
+  gpuType                       GPU type (amd/nvidia/intel)
+  showLyrics                    Show song lyrics
+  lyricsBackend                 Lyrics provider backend
+  smartScheme                   Auto color scheme from wallpaper
+  useFahrenheit                 Fahrenheit for weather
+  useFahrenheitPerformance      Fahrenheit for CPU/GPU temps
+  useTwelveHourClock            12-hour clock format
+  visualiserBars                Number of visualizer bars
+  weatherLocation               Weather location string
+
+session — Session/power menu
+------------------------------
+  enabled                       Enable session screen
+  vimKeybinds                   Vim keybinds in session screen
+  commands.shutdown             Custom shutdown command
+  commands.reboot               Custom reboot command
+  commands.logout               Custom logout command
+  commands.hibernate            Custom hibernate command
+  icons.shutdown                Custom shutdown icon
+  icons.reboot                  Custom reboot icon
+  icons.logout                  Custom logout icon
+  icons.hibernate               Custom hibernate icon
+
+sidebar — Sidebar panel
+-------------------------
+  enabled                       Enable sidebar
+  dragThreshold                 Drag sensitivity
+
+utilities — Toast notifications & quick toggles
+-------------------------------------------------
+  enabled                       Enable utilities module
+  maxToasts                     Max simultaneous toasts
+  vpn.enabled                   VPN quick toggle
+  vpn.provider                  VPN provider name(s)
+  toasts.nowPlaying             Toast on song change
+  toasts.audioOutputChanged     Toast on audio output change
+  toasts.audioInputChanged      Toast on audio input change
+  toasts.capsLockChanged        Toast on caps lock
+  toasts.numLockChanged         Toast on num lock
+  toasts.kbLayoutChanged        Toast on keyboard layout change
+  toasts.kbLimit                Max keyboard toasts
+  toasts.chargingChanged        Toast on charge state change
+  toasts.dndChanged             Toast on DnD toggle
+  toasts.gameModeChanged        Toast on game mode toggle
+  toasts.vpnChanged             Toast on VPN toggle
+  toasts.configLoaded           Toast when config loads
+  toasts.fullscreen             Show toasts over fullscreen
+
+paths — Custom asset paths
+----------------------------
+  wallpaperDir                  Wallpaper directory
+  lyricsDir                     Lyrics directory
+  mediaGif                      Media player GIF
+  sessionGif                    Session screen GIF
+  noNotifsPic                   "No notifications" image
+  lockNoNotifsPic               Lock screen "no notifs" image

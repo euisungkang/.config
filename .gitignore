@@ -1,0 +1,24 @@
+# Allowlist: ignore everything, then opt in to configs worth syncing.
+/*
+
+!/.gitignore
+!/README.md
+!/alacritty
+!/neofetch
+!/nvim
+!/tmux
+!/quickshell
+!/caelestia
+!/fuzzel
+!/cava
+!/htop
+!/nvtop
+
+# fish, hypr, btop, fastfetch, foot, starship.toml are symlinks into
+# ~/.local/share/caelestia (managed by caelestia), so they are not tracked here.
+
+# Secrets / state inside allowed dirs
+fish/secrets.fish
+fish/fish_variables
+__pycache__/
+*.pyc

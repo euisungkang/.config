@@ -1,0 +1,102 @@
+{
+    "background": {
+        "desktopClock": {
+            "background": {
+                "blur": true,
+                "enabled": true,
+                "opacity": 0.5
+            },
+            "enabled": true,
+            "invertColors": false,
+            "position": "bottom-center",
+            "scale": 0.6,
+            "shadow": {
+                "blur": 10,
+                "enabled": true,
+                "opacity": 0.5
+            }
+        },
+        "visualiser": {
+            "autoHide": true,
+            "blur": true,
+            "enabled": true,
+            "rounding": 1,
+            "spacing": 1
+        }
+    },
+    "bar": {
+        "clock": {
+            "background": false,
+            "showDate": false
+        },
+        "workspaces": {
+            "perMonitorWorkspaces": false
+        },
+        "entries": [
+            {
+                "id": "logo",
+                "enabled": true
+            },
+            {
+                "id": "workspaces",
+                "enabled": true
+            },
+            {
+                "id": "spacer",
+                "enabled": true
+            },
+            {
+                "id": "activeWindow",
+                "enabled": true
+            },
+            {
+                "id": "spacer",
+                "enabled": true
+            },
+            {
+                "id": "razer",
+                "enabled": true
+            },
+            {
+                "id": "tray",
+                "enabled": true
+            },
+            {
+                "id": "clock",
+                "enabled": true
+            },
+            {
+                "id": "statusIcons",
+                "enabled": true
+            },
+            {
+                "id": "power",
+                "enabled": true
+            }
+        ]
+    },
+    "general": {
+        "idle": {
+            "inhibitWhenAudio": true,
+            "lockBeforeSleep": true,
+            "timeouts": [
+                {
+                    "idleAction": "lock",
+                    "timeout": 900
+                },
+                {
+                    "idleAction": "dpms off",
+                    "returnAction": "dpms on",
+                    "timeout": 1800
+                },
+                {
+                    "idleAction": [
+                        "systemctl",
+                        "suspend-then-hibernate"
+                    ],
+                    "timeout": 3600
+                }
+            ]
+        }
+    }
+}
