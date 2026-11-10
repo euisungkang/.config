@@ -29,9 +29,6 @@
             "background": false,
             "showDate": false
         },
-        "workspaces": {
-            "perMonitorWorkspaces": false
-        },
         "entries": [
             {
                 "id": "logo",

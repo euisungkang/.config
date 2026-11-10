@@ -1,4 +1,4 @@
-caelestia-meta
+app2unit
 caelestia-shell
 claude-code
 miniconda3
