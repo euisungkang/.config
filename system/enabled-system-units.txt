@@ -1,0 +1,17 @@
+avahi-daemon.service
+bluetooth.service
+eno1-eee-off.service
+firewalld.service
+getty@.service
+greetd.service
+NetworkManager-dispatcher.service
+NetworkManager-wait-online.service
+NetworkManager.service
+ollama.service
+power-profiles-daemon.service
+proton.VPN.service
+systemd-timesyncd.service
+avahi-daemon.socket
+docker.socket
+systemd-userdbd.socket
+fstrim.timer

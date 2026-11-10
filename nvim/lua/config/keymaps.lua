@@ -47,18 +47,11 @@ vim.keymap.set("n", "<leader>a", function()
 end)
 vim.keymap.set("n", "<C-a>", ui.toggle_quick_menu)
 
-vim.keymap.set("n", "<leader>1", function()
-  ui.nav_file(1)
-end)
-vim.keymap.set("n", "<leader>2", function()
-  ui.nav_file(2)
-end)
-vim.keymap.set("n", "<leader>3", function()
-  ui.nav_file(3)
-end)
-vim.keymap.set("n", "<leader>4", function()
-  ui.nav_file(4)
-end)
+for i = 1, 9 do
+  vim.keymap.set("n", "<leader>" .. i, function()
+    ui.nav_file(i)
+  end)
+end
 
 -- TMUX VIM NAV (for non-Hyprland / tmux systems: re-enable tmux.lua and swap
 -- the Hyprland block below for this one)

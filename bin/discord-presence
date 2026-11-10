@@ -1,0 +1,170 @@
+#!/usr/bin/env python3
+"""Set a custom Discord Rich Presence through the desktop client's IPC socket.
+
+Works with the official Discord app (no client mods). Reads
+~/.config/discord-presence/config.json, keeps the presence set while Discord
+runs, reconnects when Discord restarts, and re-applies the config when the
+file changes. Meant to run as the `discord-presence` systemd user service.
+"""
+
+import datetime
+import json
+import os
+import socket
+import struct
+import sys
+import time
+import uuid
+
+CONFIG = os.path.expanduser("~/.config/discord-presence/config.json")
+RETRY_SECONDS = 15
+
+OP_HANDSHAKE, OP_FRAME, OP_CLOSE = 0, 1, 2
+
+
+def log(msg):
+    print(msg, file=sys.stderr, flush=True)
+
+
+def ipc_paths():
+    base = os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}"
+    return [os.path.join(base, f"discord-ipc-{i}") for i in range(10)]
+
+
+def send(sock, op, payload):
+    data = json.dumps(payload).encode()
+    sock.sendall(struct.pack("<ii", op, len(data)) + data)
+
+
+def recv(sock):
+    header = recv_exact(sock, 8)
+    op, length = struct.unpack("<ii", header)
+    return op, json.loads(recv_exact(sock, length))
+
+
+def recv_exact(sock, n):
+    buf = b""
+    while len(buf) < n:
+        chunk = sock.recv(n - len(buf))
+        if not chunk:
+            raise ConnectionError("Discord closed the connection")
+        buf += chunk
+    return buf
+
+
+def connect(client_id):
+    for path in ipc_paths():
+        if not os.path.exists(path):
+            continue
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        try:
+            sock.connect(path)
+            send(sock, OP_HANDSHAKE, {"v": 1, "client_id": client_id})
+            op, data = recv(sock)
+            if op == OP_FRAME and data.get("evt") == "READY":
+                user = data.get("data", {}).get("user", {}).get("username", "?")
+                log(f"connected to {path} as {user}")
+                return sock
+            log(f"{path}: unexpected handshake reply: {data}")
+        except OSError as e:
+            log(f"{path}: {e}")
+        sock.close()
+    return None
+
+
+def build_activity(cfg):
+    # Same as Equicord's CustomRPC: an "instance" activity (flags: 1 << 0).
+    activity = {"instance": cfg.get("instance", True)}
+    # Overrides the developer-portal application name shown after the verb.
+    if cfg.get("name"):
+        activity["name"] = cfg["name"]
+    # 0 Playing, 2 Listening, 3 Watching, 5 Competing (the verb Discord shows).
+    if "type" in cfg:
+        activity["type"] = cfg["type"]
+    # Member-list status text: 0 = app name, 1 = state, 2 = details.
+    if "status_display_type" in cfg:
+        activity["status_display_type"] = cfg["status_display_type"]
+    # *_url makes the details/state line a clickable link.
+    for key in ("details", "details_url", "state", "state_url"):
+        if cfg.get(key):
+            activity[key] = cfg[key]
+
+    assets = {k: cfg[k] for k in ("large_image", "large_text", "small_image", "small_text") if cfg.get(k)}
+    if assets:
+        activity["assets"] = assets
+
+    mode = cfg.get("timestamp", "none")
+    if mode == "midnight":  # elapsed time reads as the current time of day
+        start = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        activity["timestamps"] = {"start": int(start.timestamp())}
+    elif mode == "login":
+        activity["timestamps"] = {"start": STARTED}
+
+    buttons = [b for b in cfg.get("buttons", []) if b.get("label") and b.get("url")][:2]
+    if buttons:
+        activity["buttons"] = buttons
+    return activity
+
+
+def set_activity(sock, cfg):
+    send(sock, OP_FRAME, {
+        "cmd": "SET_ACTIVITY",
+        "args": {"pid": os.getpid(), "activity": build_activity(cfg)},
+        "nonce": str(uuid.uuid4()),
+    })
+    op, data = recv(sock)
+    if data.get("evt") == "ERROR":
+        log(f"SET_ACTIVITY failed: {data.get('data')}")
+    else:
+        log("presence set")
+
+
+def load_config():
+    with open(CONFIG) as f:
+        return json.load(f)
+
+
+def run_session(cfg, mtime):
+    sock = connect(cfg["client_id"])
+    if not sock:
+        return
+    try:
+        set_activity(sock, cfg)
+        day = datetime.date.today()
+        sock.settimeout(RETRY_SECONDS)
+        while True:
+            try:
+                op, data = recv(sock)
+                if op == OP_CLOSE:
+                    log(f"Discord closed the session: {data}")
+                    return
+            except socket.timeout:
+                pass
+            new_mtime = os.path.getmtime(CONFIG)
+            if new_mtime != mtime or datetime.date.today() != day:
+                mtime, day = new_mtime, datetime.date.today()
+                cfg = load_config()
+                log("config changed, updating presence")
+                sock.settimeout(None)
+                set_activity(sock, cfg)
+                sock.settimeout(RETRY_SECONDS)
+    except (OSError, ConnectionError, ValueError) as e:
+        log(f"disconnected: {e}")
+    finally:
+        sock.close()
+
+
+STARTED = int(time.time())
+
+
+def main():
+    while True:
+        try:
+            run_session(load_config(), os.path.getmtime(CONFIG))
+        except (OSError, ValueError, KeyError) as e:
+            log(f"config error: {e}")
+        time.sleep(RETRY_SECONDS)
+
+
+if __name__ == "__main__":
+    main()

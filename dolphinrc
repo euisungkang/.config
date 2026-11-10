@@ -1,0 +1,13 @@
+[ExtractDialog]
+3 screens: Window-Maximized=true
+
+[General]
+Version=202
+ViewPropsTimestamp=2026,5,27,21,56,45.284
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[MainWindow]
+MenuBar=Disabled

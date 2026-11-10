@@ -1,0 +1,5 @@
+[Hotkey/TriggerKeys]
+0=Alt_R
+
+[Behavior]
+ActiveByDefault=False

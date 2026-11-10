@@ -19,8 +19,8 @@ if vim.fn.executable("wl-copy") == 1 and vim.fn.executable("wl-paste") == 1 then
       ["*"] = { "wl-copy", "--type", "text/plain" },
     },
     paste = {
-      ["+"] = { "wl-paste", "--no-newline" },
-      ["*"] = { "wl-paste", "--no-newline" },
+      ["+"] = { "wl-paste" },
+      ["*"] = { "wl-paste" },
     },
     cache_enabled = true,
   }

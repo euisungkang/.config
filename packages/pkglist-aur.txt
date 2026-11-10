@@ -1,0 +1,12 @@
+caelestia-meta
+caelestia-shell
+claude-code
+miniconda3
+polychromatic
+qt6-m3shapes-git
+spicetify-cli
+spicetify-marketplace-bin
+spotify
+wlsunset-git
+zen-browser-bin
+zoom

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Block commits that contain credentials or personal data (see scripts/scan-secrets.sh).
+cd "$(git rev-parse --show-toplevel)" || exit 1
+if staged=$(git diff --cached --name-only | grep -E '(^|/)(secrets\.fish|fish_variables)$|\.pem$|credentials.*\.json$|(^|/)\.env$'); then
+  echo "Refusing to commit sensitive file(s):"; echo "$staged"; exit 1
+fi
+scripts/scan-secrets.sh --staged || { echo "Commit blocked: remove the flagged content (or fix scripts/scan-secrets.sh if it is a false positive)."; exit 1; }
