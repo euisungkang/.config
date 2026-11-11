@@ -32,7 +32,7 @@ mkdir -p ~/.local/bin
 ln -sfn "$CFG/bin/discord-presence" ~/.local/bin/discord-presence
 git config core.hooksPath .githooks
 
-say "Private repo (reminder units, gitconfig, ssh config, discord-presence config)"
+say "Private repo (reminder units, gitconfig, ssh config, discord-presence config, wallpapers)"
 if [[ -d $PRIV ]]; then
   mv -n "$CFG/systemd/user" "$CFG/systemd/user.pre" 2>/dev/null || true
   mkdir -p "$CFG/systemd" "$CFG/discord-presence" ~/.ssh
@@ -40,6 +40,9 @@ if [[ -d $PRIV ]]; then
   ln -sfn "$PRIV/discord-presence/config.json" "$CFG/discord-presence/config.json"
   ln -sfn "$PRIV/home/gitconfig" ~/.gitconfig
   ln -sfn "$PRIV/ssh/config" ~/.ssh/config
+  mkdir -p ~/Pictures
+  [[ -d ~/Pictures/Wallpapers && ! -L ~/Pictures/Wallpapers ]] && mv -n ~/Pictures/Wallpapers ~/Pictures/Wallpapers.pre
+  ln -sfn "$PRIV/wallpapers" ~/Pictures/Wallpapers
   systemctl --user daemon-reload
   for t in "$PRIV"/systemd/user/*.timer; do systemctl --user enable --now "$(basename "$t")"; done
   systemctl --user enable --now discord-presence.service openrazer-daemon.service || true
