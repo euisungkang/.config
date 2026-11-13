@@ -58,6 +58,15 @@ check "discord-presence/config.json must link into private repo" \
 check "private repo holds reminder units" compgen -G "$P/systemd/user/*.timer"
 check "private repo ignores *.wants symlinks" git -C "$P" check-ignore -q --no-index systemd/user/timers.target.wants/x
 check "private repo holds no ssh keys/pem" bash -c "! git -C '$P' ls-files --cached --others --exclude-standard | grep -Eq '\.pem$|\.pub$|id_'"
+check "~/Pictures/Wallpapers must link into private repo" \
+  test "$(canon "$HOME/Pictures/Wallpapers")" = "$P/wallpapers"
+check "private repo tracks wallpapers" bash -c "git -C '$P' ls-files wallpapers | grep -Eiq '\.(png|jpe?g|webp)$'"
+PB="$HOME/.local/share/plaid-balance/credentials.json"
+check "plaid credentials must link into private repo" test "$(canon "$PB")" = "$P/plaid-balance/credentials.json"
+check "plaid credentials are mode 600" test "$(stat -Lc %a "$PB")" = "600"
+check "plaid manual.json must link into private repo" test "$(canon "${PB%credentials.json}manual.json")" = "$P/plaid-balance/manual.json"
+check "private repo tracks plaid credentials" git -C "$P" ls-files --error-unmatch plaid-balance/credentials.json
+grep -Eiq '(^|/)wallpapers/' <<<"$trackable" && bad "wallpapers trackable in public repo" || ok
 
 # 6. Commit guard installed.
 check "core.hooksPath is .githooks" test "$(git config core.hooksPath)" = ".githooks"

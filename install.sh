@@ -32,7 +32,7 @@ mkdir -p ~/.local/bin
 ln -sfn "$CFG/bin/discord-presence" ~/.local/bin/discord-presence
 git config core.hooksPath .githooks
 
-say "Private repo (reminder units, gitconfig, ssh config, discord-presence config)"
+say "Private repo (reminder units, gitconfig, ssh config, discord-presence config, wallpapers, plaid creds)"
 if [[ -d $PRIV ]]; then
   mv -n "$CFG/systemd/user" "$CFG/systemd/user.pre" 2>/dev/null || true
   mkdir -p "$CFG/systemd" "$CFG/discord-presence" ~/.ssh
@@ -40,6 +40,14 @@ if [[ -d $PRIV ]]; then
   ln -sfn "$PRIV/discord-presence/config.json" "$CFG/discord-presence/config.json"
   ln -sfn "$PRIV/home/gitconfig" ~/.gitconfig
   ln -sfn "$PRIV/ssh/config" ~/.ssh/config
+  mkdir -p ~/Pictures
+  [[ -d ~/Pictures/Wallpapers && ! -L ~/Pictures/Wallpapers ]] && mv -n ~/Pictures/Wallpapers ~/Pictures/Wallpapers.pre
+  ln -sfn "$PRIV/wallpapers" ~/Pictures/Wallpapers
+  # Plaid creds + hand-entered balances for the credit-card / investments widgets
+  mkdir -p ~/.local/share/plaid-balance
+  chmod 600 "$PRIV/plaid-balance/credentials.json"
+  ln -sfn "$PRIV/plaid-balance/credentials.json" ~/.local/share/plaid-balance/credentials.json
+  ln -sfn "$PRIV/plaid-balance/manual.json" ~/.local/share/plaid-balance/manual.json
   systemctl --user daemon-reload
   for t in "$PRIV"/systemd/user/*.timer; do systemctl --user enable --now "$(basename "$t")"; done
   systemctl --user enable --now discord-presence.service openrazer-daemon.service || true
@@ -56,7 +64,7 @@ cat <<'EOF'
 ==> Manual steps (deliberately not automated)
   Secrets/credentials - copy over a secure channel, never commit:
     ~/.ssh/*.pem, ~/.ssh/*.pub      ~/.config/fish/secrets.fish
-    ~/.local/share/plaid-balance/   ~/.local/share/x-hub/   ~/.grok/   ~/.claude*/
+    ~/.local/share/x-hub/   ~/.grok/   ~/.claude*/
     then: gh auth login ; bitwarden login
   Machine-specific (do NOT blindly copy from the desktop):
     hypr/monitors.conf, hypr/workspaces.conf, caelestia/monitors/*  -> regenerate with nwg-displays
